@@ -5,6 +5,22 @@ inputs:
   path:
     description: 'build source path'
     required: true
+  configuration:
+    description: 'build configuration'
+    required: true
+    default: 'Release'
+  os:
+    description: 'build os'
+    required: true
+    default: 'linux'
+  arch:
+    description: 'build arch'
+    required: true
+    default: 'x64'
+  framework:
+    description: 'build framework'
+    required: true
+    default: 'net8.0'
 outputs:
   path:
     description: 'build target path'
@@ -16,7 +32,6 @@ runs:
       id: buildaspnetcoreapp
       shell: bash
       run: |
-        echo "${{ inputs.path }}"
         dotnet build ${{ inputs.path }} \
           --configuration ${{ inputs.configuration }} \
           --os ${{ inputs.os }} \
