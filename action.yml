@@ -1,0 +1,30 @@
+# action.yml
+name: 'ASP.NET Core Web Application'
+description: 'This action builds ASP.NET Core Web Application'
+inputs:
+  path:
+    description: 'build source path'
+    required: true
+outputs:
+  path:
+    description: 'build target path'
+    value: ${{ steps.buildaspnetcoreapp.outputs.path }}
+runs:
+  using: 'composite'
+  steps:
+    - name: 'ASP.NET Core Web Application'
+      id: buildaspnetcoreapp
+      shell: bash
+      run: |
+        echo "${{ inputs.path }}"
+        dotnet build ${{ inputs.path }} \
+          --configuration ${{ inputs.configuration }} \
+          --os ${{ inputs.os }} \
+          --arch ${{ inputs.arch }} \
+          --framework ${{ inputs.framework }}
+        ls -l ${{ inputs.path }} 
+        ls -l ${{ inputs.path }}/bin
+        ls -l ${{ inputs.path }}/bin/${{ inputs.configuration }}
+        ls -l ${{ inputs.path }}/bin/${{ inputs.configuration }}/${{ inputs.framework }}
+        ls -l ${{ inputs.path }}/bin/${{ inputs.configuration }}/${{ inputs.framework }}/${{ inputs.os }}-${{ inputs.arch }}
+        echo "path=$(pwd)/${{ inputs.path }}/bin/${{ inputs.configuration }}/${{ inputs.framework }}/${{ inputs.os }}-${{ inputs.arch }}" >> $GITHUB_OUTPUT
