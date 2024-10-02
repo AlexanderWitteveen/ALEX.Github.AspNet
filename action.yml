@@ -37,9 +37,14 @@ runs:
           --os ${{ inputs.os }} \
           --arch ${{ inputs.arch }} \
           --framework ${{ inputs.framework }}
-        ls -l ${{ inputs.path }} 
-        ls -l ${{ inputs.path }}/bin
-        ls -l ${{ inputs.path }}/bin/${{ inputs.configuration }}
-        ls -l ${{ inputs.path }}/bin/${{ inputs.configuration }}/${{ inputs.framework }}
-        ls -l ${{ inputs.path }}/bin/${{ inputs.configuration }}/${{ inputs.framework }}/${{ inputs.os }}-${{ inputs.arch }}
-        echo "path=$(pwd)/${{ inputs.path }}/bin/${{ inputs.configuration }}/${{ inputs.framework }}/${{ inputs.os }}-${{ inputs.arch }}" >> $GITHUB_OUTPUT
+        if [ -d ${{ inputs.path }} ]; then
+          path=$(pwd)/${{ inputs.path }}
+        else
+          path=$(pwd)/$(dirname ${{ inputs.path }})
+        fi
+        ls -l $path
+        ls -l $path/bin
+        ls -l $path/bin/${{ inputs.configuration }}
+        ls -l $path/bin/${{ inputs.configuration }}/${{ inputs.framework }}
+        ls -l $path/bin/${{ inputs.configuration }}/${{ inputs.framework }}/${{ inputs.os }}-${{ inputs.arch }}
+        echo "path=$path/bin/${{ inputs.configuration }}/${{ inputs.framework }}/${{ inputs.os }}-${{ inputs.arch }}" >> $GITHUB_OUTPUT
