@@ -36,7 +36,8 @@ runs:
           --configuration ${{ inputs.configuration }} \
           --os ${{ inputs.os }} \
           --arch ${{ inputs.arch }} \
-          --framework ${{ inputs.framework }}
+          --framework ${{ inputs.framework }} \
+          --self-contained true
         if [ -d ${{ inputs.path }} ]; then
           path=$(pwd)/${{ inputs.path }}
         else
